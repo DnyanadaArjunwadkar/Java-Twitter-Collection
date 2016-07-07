@@ -36,23 +36,18 @@ public class GetHomeTimeline {
 				   // query.getSince();
 			//	query.setUntil("2015-12-1");
 			    query.count(1000);
-
-			
 			    QueryResult result = twitter.search(query);
-			    
-			    
-			    
+		
 			    int counter=result.getCount();
 			    new File("ballot").mkdir();
 			    File file = new File("lemon41.json");
-			   
-			    //file.createNewFile();
 			    FileWriter writer = new FileWriter(file);
-			   // output = new BufferedWriter(new FileWriter(file, true));
 			    List<TweetToJSON> tlist=new ArrayList<TweetToJSON>();
-			  for (Status status : result.getTweets()) {
+			    
+			  for (Status status : result.getTweets())
+			  {
 			    	 
-			    System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
+			     System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
 			        
 			     String rawJSON = TwitterObjectFactory.getRawJSON(status);
 			     
@@ -70,88 +65,51 @@ public class GetHomeTimeline {
 			     String date_string= sdf.format(dt2);
 			     t.setCreated_at(date_string);
 			     t.setLang(status.getLang());
-			     
-			     
+			  
 			     if(status.getLang().equals("en"))
 			     {
 			    	 t.setText_en(status.getText());
-				      
 			     }
 			     else if(status.getLang().equals("ru"))
 			     {
-			    	 
 			    	 t.setText_ru(status.getText());
 			     }
 			     else
 			     {
 			    	 t.setText_de(status.getText());
-			    	 
 			     }
-			     /*
-			     t.setText(status.getText());
-			     */
 			     for (URLEntity url : status.getURLEntities())
 			     {
 			         t.appendtwitter_url(url.getExpandedURL());
-			    	 
 			     }
-			     
-			     
-			     
 			     for (HashtagEntity hsh : status.getHashtagEntities())
 			     {
 			    	 t.appendTwitter_hashtag(hsh.getText());
 			     }
 			     
-			     //t.setHashtags(status.getHashtagEntities());
-			  /*   
-			   try {
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			    */ 
-			     
-			     
 			     tlist.add(t);
-			    
-			    
-			     
 			    }
 			    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			      
-			     System.out.println(gson.toJson(tlist));
+			    System.out.println(gson.toJson(tlist));
 			    writer.write(gson.toJson(tlist));
-			     writer.flush();
-			    
-			      writer.close();     
-			        
-			 //     output.close();
+			    writer.flush();
+			    writer.close();     
 			 
-			 
-			 
-			 
-	          
-	          
 	            System.out.print("\ndone.");
 	            System.exit(0);
-	        } catch (IOException ioe) {
+	        }
+	        catch (IOException ioe) 
+	        {
 	            ioe.printStackTrace();
 	            System.out.println("Failed to store tweets: " + ioe.getMessage());
-	        } catch (TwitterException te) {
+	        } 
+	        catch (TwitterException te) 
+	        {
 	            te.printStackTrace();
 	            System.out.println("Failed to get timeline: " + te.getMessage());
 	            System.exit(-1);
 	        }
-	    
-
 	}//eof setup
-
-	
 }
 	
-          
-            
-     
-  
+ 
